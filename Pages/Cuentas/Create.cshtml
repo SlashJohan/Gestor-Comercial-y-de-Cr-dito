@@ -1,0 +1,56 @@
+@page
+@model GestorComercialCredito.Web.Pages.Cuentas.CreateModel
+@{
+    ViewData["Title"] = "Nueva Cuenta";
+}
+
+<div class="container mt-4">
+    <h2>Nueva Cuenta (PUC)</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Cuenta.Codigo" class="form-label"></label>
+                    <input asp-for="Cuenta.Codigo" class="form-control" />
+                    <span asp-validation-for="Cuenta.Codigo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Cuenta.Nombre" class="form-label"></label>
+                    <input asp-for="Cuenta.Nombre" class="form-control" />
+                    <span asp-validation-for="Cuenta.Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Cuenta.TipoCuenta" class="form-label"></label>
+                    <select asp-for="Cuenta.TipoCuenta" class="form-select">
+                        <option value="">Seleccione un tipo</option>
+                        <option value="ACTIVO_CORRIENTE">Activo Corriente</option>
+                        <option value="PASIVO_CORRIENTE">Pasivo Corriente</option>
+                        <option value="INGRESO">Ingreso</option>
+                        <option value="UTILIDAD_NETA">Utilidad Neta</option>
+                    </select>
+                    <span asp-validation-for="Cuenta.TipoCuenta" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="Cuenta.Activa" class="form-check-input" type="checkbox" checked />
+                    <label asp-for="Cuenta.Activa" class="form-check-label"></label>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

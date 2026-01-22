@@ -1,0 +1,70 @@
+@page
+@model GestorComercialCredito.Web.Pages.CargaArchivo.IndexModel
+@{
+    ViewData["Title"] = "Carga de Archivo Excel / PDF";
+}
+
+<div class="container mt-4">
+    <h2>Carga de Archivo Excel / PDF</h2>
+    <p class="text-muted">
+        Seleccione un archivo con datos contables. Formato esperado: primera fila = encabezados
+        (<strong>NIT</strong>, <strong>NombreEmpresa</strong>, <strong>Anio</strong>, <strong>CodigoCuenta</strong>, <strong>Valor</strong>).
+        Las cuentas deben existir en Gestión &gt; Cuentas (PUC).
+    </p>
+    <hr />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" class="row g-3">
+                <div class="col-auto">
+                    <label for="Archivo" class="form-label">Archivo</label>
+                    <input type="file" asp-for="Archivo" class="form-control" accept=".xlsx,.pdf" required />
+                </div>
+                <div class="col-auto d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Cargar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.Resultado != null)
+    {
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Resultado de la carga</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Filas insertadas:</strong> @Model.Resultado.FilasInsertadas</p>
+                <p class="mb-1"><strong>Filas omitidas:</strong> @Model.Resultado.FilasOmitidas</p>
+                @if (Model.Resultado.Errores.Any())
+                {
+                    <div class="mt-2">
+                        <strong>Errores / advertencias:</strong>
+                        <ul class="mb-0">
+                            @foreach (var e in Model.Resultado.Errores.Distinct())
+                            {
+                                <li>@e</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

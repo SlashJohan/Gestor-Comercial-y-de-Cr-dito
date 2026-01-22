@@ -1,0 +1,42 @@
+@page "{id:int}"
+@model GestorComercialCredito.Web.Pages.Indicadores.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Indicador";
+}
+
+<div class="container mt-4">
+    <h2>Eliminar Indicador</h2>
+    <hr />
+
+    <h3>¿Está seguro de que desea eliminar este indicador?</h3>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Nombre:</dt>
+                <dd class="col-sm-8">@Model.Indicador.Nombre</dd>
+
+                <dt class="col-sm-4">Descripción:</dt>
+                <dd class="col-sm-8">@(Model.Indicador.Descripcion ?? "-")</dd>
+
+                <dt class="col-sm-4">Estado:</dt>
+                <dd class="col-sm-8">
+                    @if (Model.Indicador.Activo)
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactivo</span>
+                    }
+                </dd>
+            </dl>
+
+            <form method="post">
+                <input type="hidden" asp-for="Indicador.IndicadorId" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

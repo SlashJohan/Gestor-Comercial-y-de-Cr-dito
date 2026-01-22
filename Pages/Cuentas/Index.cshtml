@@ -1,0 +1,86 @@
+@page
+@model GestorComercialCredito.Web.Pages.Cuentas.IndexModel
+@{
+    ViewData["Title"] = "Gestión de Cuentas (PUC)";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestión de Cuentas (PUC)</h2>
+        <a asp-page="Create" class="btn btn-primary">Nueva Cuenta</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model.Cuentas.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Tipo de Cuenta</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cuenta in Model.Cuentas)
+                {
+                    <tr>
+                        <td>@cuenta.Codigo</td>
+                        <td>@cuenta.Nombre</td>
+                        <td>@cuenta.TipoCuenta</td>
+                        <td>
+                            @if (cuenta.Activa)
+                            {
+                                <span class="badge bg-success">Activa</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactiva</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-page="Edit" asp-route-id="@cuenta.CuentaId" class="btn btn-sm btn-outline-primary">Editar</a>
+                            @if (cuenta.Activa)
+                            {
+                                <form method="post" asp-page-handler="Inactivar" style="display: inline;">
+                                    <input type="hidden" name="id" value="@cuenta.CuentaId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-warning" onclick="return confirm('¿Está seguro de inactivar esta cuenta?');">Inactivar</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="Activar" style="display: inline;">
+                                    <input type="hidden" name="id" value="@cuenta.CuentaId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-success">Activar</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No hay cuentas registradas. <a asp-page="Create">Crear una nueva cuenta</a>
+        </div>
+    }
+</div>

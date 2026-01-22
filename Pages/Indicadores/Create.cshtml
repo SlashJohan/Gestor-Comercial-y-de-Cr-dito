@@ -1,0 +1,44 @@
+@page
+@model GestorComercialCredito.Web.Pages.Indicadores.CreateModel
+@{
+    ViewData["Title"] = "Nuevo Indicador";
+}
+
+<div class="container mt-4">
+    <h2>Nuevo Indicador</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Indicador.Nombre" class="form-label"></label>
+                    <input asp-for="Indicador.Nombre" class="form-control" />
+                    <span asp-validation-for="Indicador.Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Indicador.Descripcion" class="form-label"></label>
+                    <textarea asp-for="Indicador.Descripcion" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Indicador.Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="Indicador.Activo" class="form-check-input" type="checkbox" checked />
+                    <label asp-for="Indicador.Activo" class="form-check-label"></label>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,39 @@
+@page "{id:int}"
+@model GestorComercialCredito.Web.Pages.Companies.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Empresa";
+}
+
+<div class="container mt-4">
+    <h2>Eliminar Empresa</h2>
+    <hr />
+
+    <h3>¿Está seguro que desea eliminar esta empresa?</h3>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-3">ID:</dt>
+                <dd class="col-sm-9">@Model.Empresa.EmpresaId</dd>
+
+                <dt class="col-sm-3">NIT:</dt>
+                <dd class="col-sm-9">@Model.Empresa.Nit</dd>
+
+                <dt class="col-sm-3">Nombre:</dt>
+                <dd class="col-sm-9">@Model.Empresa.Nombre</dd>
+
+                <dt class="col-sm-3">Activa:</dt>
+                <dd class="col-sm-9">@(Model.Empresa.Activa ? "Sí" : "No")</dd>
+
+                <dt class="col-sm-3">Fecha Creación:</dt>
+                <dd class="col-sm-9">@Model.Empresa.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+
+            <form method="post">
+                <input type="hidden" asp-for="Empresa.EmpresaId" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

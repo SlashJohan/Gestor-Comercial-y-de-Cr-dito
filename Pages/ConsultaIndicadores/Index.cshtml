@@ -1,0 +1,91 @@
+@page
+@model GestorComercialCredito.Web.Pages.ConsultaIndicadores.IndexModel
+@{
+    ViewData["Title"] = "Consulta de Indicadores";
+}
+
+<div class="container mt-4">
+    <h2>Consulta de Indicadores</h2>
+    <hr />
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Filtros de Búsqueda</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label for="EmpresaId" class="form-label">Empresa (NIT)</label>
+                    <select asp-for="EmpresaId" asp-items="Model.Empresas" class="form-select">
+                        <option value="">Todas las empresas</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="IndicadorId" class="form-label">Indicador</label>
+                    <select asp-for="IndicadorId" asp-items="Model.Indicadores" class="form-select">
+                        <option value="">Todos los indicadores</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="PeriodoId" class="form-label">Periodo (Año)</label>
+                    <select asp-for="PeriodoId" asp-items="Model.Periodos" class="form-select">
+                        <option value="">Todos los periodos</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.ResultadosIndicadores.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>NIT</th>
+                        <th>Indicador</th>
+                        <th>Periodo (Año)</th>
+                        <th>Valor</th>
+                        <th>Fecha Cálculo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ResultadosIndicadores)
+                    {
+                        <tr>
+                            <td>@(item.Empresa?.Nombre ?? "N/A")</td>
+                            <td>@(item.Empresa?.Nit ?? "N/A")</td>
+                            <td>@(item.Indicador?.Nombre ?? "N/A")</td>
+                            <td>@(item.Periodo?.Anio.ToString() ?? "N/A")</td>
+                            <td>
+                                <strong>@item.Valor.ToString("N4")</strong>
+                            </td>
+                            <td>@item.FechaCalculo.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No se encontraron resultados de indicadores con los filtros seleccionados.
+        </div>
+    }
+</div>

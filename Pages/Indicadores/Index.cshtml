@@ -1,0 +1,55 @@
+@page
+@model GestorComercialCredito.Web.Pages.Indicadores.IndexModel
+@{
+    ViewData["Title"] = "Gestión de Indicadores";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestión de Indicadores</h2>
+        <a asp-page="Create" class="btn btn-primary">Nuevo Indicador</a>
+    </div>
+
+    @if (Model.Indicadores.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var indicador in Model.Indicadores)
+                {
+                    <tr>
+                        <td>@indicador.Nombre</td>
+                        <td>@(indicador.Descripcion ?? "-")</td>
+                        <td>
+                            @if (indicador.Activo)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactivo</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-page="Edit" asp-route-id="@indicador.IndicadorId" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a asp-page="Delete" asp-route-id="@indicador.IndicadorId" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No hay indicadores registrados. <a asp-page="Create">Crear un nuevo indicador</a>
+        </div>
+    }
+</div>
